@@ -18,6 +18,11 @@ public class Notebook extends Product{
 	}
 
 	public Notebook() {}
+	
+	public Notebook(String brand, String type) {
+		this.type = type;
+		this.brand = brand;
+	}
 
 
 	

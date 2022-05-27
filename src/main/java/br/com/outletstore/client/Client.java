@@ -1,6 +1,7 @@
 package br.com.outletstore.client;
 
 import br.com.outletstore.director.Catalog;
+import br.com.outletstore.inventory.ProductInventory;
 
 public class Client {
 	
@@ -9,29 +10,30 @@ public class Client {
 		
 		Catalog catalog = new Catalog();
 		
+		ProductInventory inventory = ProductInventory.getInstance();
+		
+		
+
+		
+
+		
+		//Adding Products to Catalog
 		catalog.addProductToCatalog(1);
-		
-		
-		System.out.println(catalog.catalog.get(0));
-//				
-//		NotebookBuilder builder = new NotebookBuilder();
-//		builder.setSku(1).setPrice(12000).setWeight(3200);
-//		builder.setStockQuantity(10);
-//		builder.setStockReserved(0);
-//		builder.setType("G15 L1114");
-//		builder.setBrand("Dell");
-//		
-//		Notebook notebook = builder.build();
-//		
-//
-//		Catalog catalog = new Catalog();
-//		catalog.catalog.add(builder.getProduct());		
-//		System.out.println(notebook.toString());
+		catalog.addProductToCatalog(2);
 
+		//System.out.println(catalog.getAllProducts());
+		
+		//Filling the stock
+		ProductInventory.addCatalogToInventory(catalog);
+		
+		
+		//Checking 
+		inventory.getProductStock(1);
 		
 
-		
-		
+		inventory.removeProductFromStock(1, 20);
+
+		System.out.println(inventory.getInventory());		
 	}
 
 }

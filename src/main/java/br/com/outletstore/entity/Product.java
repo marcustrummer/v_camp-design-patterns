@@ -11,6 +11,7 @@ public class Product {
 	public int stockQuantity;
 	
 	public int stockReserved;
+	
 
 	
 	public Product() {}
@@ -25,7 +26,9 @@ public class Product {
 		this.weight = weight;
 		this.stockQuantity = stockQuantity;
 		this.stockReserved = stockReserved;
+		
 	}
+	
 	
 	
 
@@ -50,25 +53,20 @@ public class Product {
 		return stockReserved;
 	}
 
-	public void setSku(int sku) {
-		this.sku = sku;
-	}
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
 
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
+	
+//	public String toString() {
+//		return 
+//				"Notebook: \n"+ "[Brand: " +   this.notebook.getBrand() + "]\n"
+//		                    "[Type: " + this.notebook + "]\n" 
+//		                   +Double.toString(this.getStockQuantity()) +  "[Price: R$" +     Double.toString(this.getPrice()) + "]\n"
+//		                   + "[Weight: " +    Double.toString(this.getWeight()) + "kg]\n";
+//		                   
+//	}
 
-	public void setStockQuantity(int stockQuantity) {
-		this.stockQuantity = stockQuantity;
-	}
 
-	public void setStockReserved(int stockReserved) {
-		this.stockReserved = stockReserved;
-	}
+
 
 
 	
