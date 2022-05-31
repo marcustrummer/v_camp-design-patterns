@@ -8,9 +8,7 @@ public class Product {
 	
 	public double weight;
 
-	public int stockQuantity;
-	
-	public int stockReserved;
+
 	
 
 	
@@ -24,9 +22,6 @@ public class Product {
 		this.sku = sku;
 		this.price = price;
 		this.weight = weight;
-		this.stockQuantity = stockQuantity;
-		this.stockReserved = stockReserved;
-		
 	}
 	
 	
@@ -45,13 +40,6 @@ public class Product {
 		return weight;
 	}
 
-	public int getStockQuantity() {
-		return stockQuantity;
-	}
-
-	public int getStockReserved() {
-		return stockReserved;
-	}
 
 
 

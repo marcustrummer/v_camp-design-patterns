@@ -11,9 +11,6 @@ public class DesktopBuilder implements IProductBuilder{
 	
 	public double weight;
 	
-	public int stockQuantity;
-	
-	public int stockReserved;
 	
 	public String cpu;
 	
@@ -53,16 +50,7 @@ public class DesktopBuilder implements IProductBuilder{
 	
 	
 	
-	public DesktopBuilder setStockQuantity(int stockQuantity) {
-		this.stockQuantity = stockQuantity;
-		return this;
-	}
 
-
-	public DesktopBuilder setStockReserved(int stockReserved) {
-		this.stockReserved = stockReserved;
-		return this;
-	}
 
 
 
@@ -72,8 +60,6 @@ public class DesktopBuilder implements IProductBuilder{
 		desktop.sku = this.sku;
 		desktop.price = this.price;
 		desktop.weight = this.weight;
-		desktop.stockQuantity = this.stockQuantity;
-		desktop.stockReserved = this.stockReserved;
 		desktop.cpu = this.cpu;
 		desktop.monitor = this.monitor;
 		return desktop;

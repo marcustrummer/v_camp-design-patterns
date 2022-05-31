@@ -14,10 +14,6 @@ public class NotebookBuilder implements IProductBuilder{
 	
 	public double weight;
 	
-	public int stockQuantity;
-	
-	public int stockReserved;
-	
 	public String brand;
 	
 	public String type;
@@ -43,17 +39,6 @@ public class NotebookBuilder implements IProductBuilder{
 	}
 	
 
-	public NotebookBuilder setStockQuantity(int stockQuantity) {
-		this.stockQuantity = stockQuantity;
-		return this;
-	}
-
-	public NotebookBuilder setStockReserved(int stockReserved) {
-		this.stockReserved = stockReserved;
-		return this;
-	}
-
-
 
 	public NotebookBuilder setType(String type) {
 		this.type = type;
@@ -73,8 +58,6 @@ public class NotebookBuilder implements IProductBuilder{
 		notebook.sku = this.sku;
 		notebook.price = this.price;
 		notebook.weight = this.weight;
-		notebook.stockQuantity = this.stockQuantity;
-		notebook.stockReserved = this.stockReserved;
 		notebook.brand = this.brand;
 		notebook.type = this.type;
 		return notebook;

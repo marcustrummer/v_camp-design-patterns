@@ -23,8 +23,6 @@ public class Catalog {
 				notebookBuilder.setSku(1);
 				notebookBuilder.setPrice(12000);
 				notebookBuilder.setWeight(4500);
-				notebookBuilder.setStockQuantity(10);
-				notebookBuilder.setStockReserved(0);
 				notebookBuilder.setBrand("Dell");
 				notebookBuilder.setType("G1511");
 				Notebook notebook = notebookBuilder.build();
@@ -34,8 +32,6 @@ public class Catalog {
 				desktopBuilder.setSku(2);
 				desktopBuilder.setPrice(6800);
 				desktopBuilder.setWeight(5500);
-				desktopBuilder.setStockQuantity(10);
-				desktopBuilder.setStockReserved(0);
 				desktopBuilder.setBrand("Pc Gamer");
 				desktopBuilder.setType("AORUS");
 				Desktop desktop = desktopBuilder.build();
@@ -43,7 +39,8 @@ public class Catalog {
 				break;
 			    
 			default: 
-				System.out.println("Type of product does not exists");
+				System.out.println("404 - Product not found");
+				
 		}
 	}
 	
