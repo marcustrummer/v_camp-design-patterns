@@ -2,12 +2,13 @@ package br.com.outletstore.client;
 
 import br.com.outletstore.cart.Cart;
 import br.com.outletstore.director.Catalog;
+import br.com.outletstore.exceptions.InventoryException;
 import br.com.outletstore.inventory.ProductInventory;
 
 public class Client {
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InventoryException {
 		
 		Catalog catalog = new Catalog();
 		
@@ -48,7 +49,7 @@ public class Client {
 		
 
 		
-		cart1.removeProductFromCart(1, 7);
+		cart1.removeProductFromCart(1);
 		
 		
 		

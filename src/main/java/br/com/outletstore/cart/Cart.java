@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.outletstore.entity.Product;
+import br.com.outletstore.exceptions.InventoryException;
 import br.com.outletstore.inventory.ProductInventory;
 
 public class Cart {
@@ -24,7 +25,7 @@ public class Cart {
 	
 	
 	
-	public void addProductToCart(int sku, int quantity){
+	public void addProductToCart(int sku, int quantity) throws InventoryException{
 
 		for (Product product : inventory.getInventory()) {
 			//finding the product by sku
@@ -50,27 +51,25 @@ public class Cart {
 		}
 	}
 	
-	public void removeProductFromCart(int sku, int quantity) {
+	public void removeProductFromCart(int sku) throws InventoryException {
 		
 		
 		for(Product product : inventory.getInventory()) {
 			if(product.getSku() == sku) {
-				
-				if(inventory.getStockReserved(sku) < quantity) {
-					System.out.println("GOTCHA!\n\n\n" + "There are less than " + quantity + 
-							" products in your cart, sorry!");
 					inventory.getStockReserved(sku);
 					break;
 				}
 				
 				
-				inventory.returnProductToStock(sku, quantity);
-				while(quantity != 0) {
-					cart.remove(product);
+				inventory.returnProductsToStock(sku);
+				int qtt = inventory.getProductStock(sku);
+				while(qtt != 0) {
+					cart.remove(qtt);
+					qtt--;
 				}
 			}
 		}
-	}
+	
 	
 	public Double getCartPrice() {
 		Double cartPrice =0d;
