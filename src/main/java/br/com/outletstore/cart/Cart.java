@@ -50,7 +50,6 @@ public class Cart {
 			
 		}
 	}
-	
 	public void removeProductFromCart(int sku) throws InventoryException {
 		
 		
