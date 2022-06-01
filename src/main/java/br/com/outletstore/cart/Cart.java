@@ -1,7 +1,6 @@
 package br.com.outletstore.cart;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import br.com.outletstore.entity.Product;
@@ -50,9 +49,6 @@ public class Cart {
 				break;
 			}
 		}
-
-//		cart.removeIf(prod -> prod.getSku() == sku);
-
 	}
 
 	public Double getCartPrice() {

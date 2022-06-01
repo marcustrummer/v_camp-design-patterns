@@ -27,7 +27,7 @@ public class ProductInventory {
 		// Makes sure the instance of singleton
 		// wasn't initialized by another thread yet
 		if (productInventory == null) {
-			productInventory = new ProductInventory(notebookStock, desktopStock, inventory);
+			productInventory = new ProductInventory(notebookStock, desktopStock, inventory, notebooksReserved, desktopsReserved);
 		}
 		return productInventory;
 	}
@@ -36,23 +36,28 @@ public class ProductInventory {
 	// private to make sure noone can make new instances of the singleton
 	// by using the operator `new`
 	// i.e, ProductIventory productInventory = new ProductInventory();
-	private ProductInventory(int notebookStock, int desktopStock, List<Product> inventory) {
+	private ProductInventory(int notebookStock, int desktopStock, List<Product> inventory, int notebooksReserved, int desktopsReserved) {
 		ProductInventory.notebookStock = notebookStock;
 		ProductInventory.desktopStock = desktopStock;
 		ProductInventory.inventory = inventory;
+		ProductInventory.notebooksReserved = notebooksReserved;
+		ProductInventory.desktopsReserved = desktopsReserved;
 	}
-
-	public List<Product> getInventory() {
-		ProductInventory.getInstance();
-		return ProductInventory.inventory;
-	}
-
+	
 	public static void addCatalogToInventory(Catalog catalog) {
 		for (Product product : catalog.getAllProducts()) {
 			inventory.add(product);
 		}
 	}
+	
+	
+	
 
+	public List<Product> getInventory() {
+		ProductInventory.getInstance();
+		return ProductInventory.inventory;
+	}
+	
 	public int getProductStock(int sku) {
 		int stock = 0;
 		switch (sku) {
@@ -70,11 +75,31 @@ public class ProductInventory {
 		return stock;
 	}
 
+
+	
+	public int getStockReserved(int sku) {
+		int stock = 0;
+		switch (sku) {
+		case 1:
+			stock = ProductInventory.notebooksReserved;
+			System.out.println("There are currently " + stock + " notebooks reserved");
+			break;
+		case 2:
+			stock = ProductInventory.desktopsReserved;
+			System.out.println("There are currently " + stock + " desktops reserved");
+			break;
+		default:
+			System.out.println("404 - Product Not Found");
+		}
+		return stock;
+	}
+	
+
+
+
 	public void returnProductsToStock(int sku, int quantity) throws InventoryException {
 		switch (sku) {
 		case 1:
-			
-			
 			ProductInventory.notebookStock += quantity;
 			ProductInventory.notebooksReserved -= quantity;
 			System.out.println(
@@ -139,21 +164,6 @@ public class ProductInventory {
 		}
 	}
 
-	public int getStockReserved(int sku) {
-		int stock = 0;
-		switch (sku) {
-		case 1:
-			stock = ProductInventory.notebooksReserved;
-			System.out.println("There are currently " + stock + " notebooks reserved");
-			break;
-		case 2:
-			stock = ProductInventory.desktopsReserved;
-			System.out.println("There are currently " + stock + " desktops reserved");
-			break;
-		default:
-			System.out.println("404 - Product Not Found");
-		}
-		return stock;
-	}
+
 
 }
