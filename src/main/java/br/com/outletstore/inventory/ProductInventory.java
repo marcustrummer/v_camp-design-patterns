@@ -12,7 +12,7 @@ public class ProductInventory {
 	// The field storing the instance of singleton must be declared as static.
 	private static ProductInventory productInventory;
 
-	private static int notebookStock = 10;
+	private static int notebookStock =10;
 
 	private static int desktopStock = 10;
 
@@ -70,18 +70,20 @@ public class ProductInventory {
 		return stock;
 	}
 
-	public void returnProductsToStock(int sku) throws InventoryException {
+	public void returnProductsToStock(int sku, int quantity) throws InventoryException {
 		switch (sku) {
 		case 1:
-			ProductInventory.notebookStock += ProductInventory.notebooksReserved;
-			ProductInventory.notebooksReserved = 0;
+			
+			
+			ProductInventory.notebookStock += quantity;
+			ProductInventory.notebooksReserved -= quantity;
 			System.out.println(
-					"Notebook returned.\n" + ProductInventory.notebookStock + " notebooks available in stock.");
+					"Notebook returned." + ProductInventory.notebookStock + " notebooks available in stock.");
 			break;
 		case 2:
 			// Must check if the quantity being returned is equal to the quantity reserved
-			ProductInventory.desktopStock += ProductInventory.desktopsReserved;
-			ProductInventory.desktopsReserved = 0;
+			ProductInventory.desktopStock += quantity;
+			ProductInventory.desktopsReserved -= quantity;
 			System.out.println(
 					"Desktop returned.\n" + ProductInventory.notebookStock + " desktops available in stock.");
 			break;
@@ -101,6 +103,7 @@ public class ProductInventory {
 			
 			
 			ProductInventory.notebookStock -= quantity;
+			ProductInventory.getInstance().getProductStock(sku);
 			blockProductFromStock(sku, quantity);
 			break;
 		case 2:
@@ -123,22 +126,11 @@ public class ProductInventory {
 	public void blockProductFromStock(int sku, int quantity) throws InventoryException {
 		switch (sku) {
 		case 1:
-			if (quantity > ProductInventory.notebookStock) {
-				System.out.println("The amount of notebooks you are trying to remove is larger than stock.\n"
-						+ ProductInventory.notebookStock + " products available in stock.");
-				throw new InventoryException("Quantity to remove larger than stock");
-			}
-			
-			
 			ProductInventory.notebooksReserved += quantity;
 			System.out.println(ProductInventory.notebooksReserved + " notebooks reserved");
 			break;
 		case 2:
-			if (quantity > ProductInventory.desktopStock) {
-				System.out.println("The amount of notebooks you are trying to remove is larger than stock.\n"
-						+ ProductInventory.notebookStock + " products available in stock.");
-				throw new InventoryException("Quantity to remove larger than stock");
-			}
+
 			ProductInventory.desktopsReserved += quantity;
 			System.out.println(ProductInventory.notebooksReserved + " desktops reserved");
 			break;

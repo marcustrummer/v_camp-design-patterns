@@ -1,16 +1,13 @@
 package br.com.outletstore.inventory;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
-import org.junit.Assert;
-import org.junit.Rule;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.rules.ErrorCollector;
 
 import br.com.outletstore.builder.DesktopBuilder;
 import br.com.outletstore.builder.NotebookBuilder;
@@ -20,8 +17,7 @@ import br.com.outletstore.exceptions.InventoryException;
 @TestMethodOrder(OrderAnnotation.class)
 class ProductInventoryTest {
 
-	@Rule
-	public ErrorCollector error = new ErrorCollector();
+
 
 	ProductInventory inventory = ProductInventory.getInstance();
 	Catalog catalog = new Catalog();
@@ -38,14 +34,15 @@ class ProductInventoryTest {
 		builder.build();
 
 		catalog.addProductToCatalog(2);
-		builderB.setBrand("Pc Gamer");
-		builderB.setType("AORUS");
+		builderB.setCpu("Pc Gamer");
+		builderB.setMonitor("AORUS");
 		builderB.build();
 		ProductInventory.addCatalogToInventory(catalog);
 
 		// Verification
-		assertThat(inventory.getProductStock(1), is(equalTo(10)));
-		assertThat(inventory.getProductStock(2), is(equalTo(10)));
+		assertEquals(10, inventory.getProductStock(1));
+		assertEquals(10, inventory.getProductStock(2));
+		
 	}
 
 	@Test
@@ -57,11 +54,11 @@ class ProductInventoryTest {
 		
 		
 		// Verification
-		assertThat(inventory.getProductStock(1), is(equalTo(5)));
-		assertThat(inventory.getProductStock(2), is(equalTo(5)));
+		assertEquals(5, inventory.getProductStock(1));
+		assertEquals(5, inventory.getProductStock(2));
 		// StockReserved
-		assertThat(inventory.getStockReserved(1), is(equalTo(5)));
-		assertThat(inventory.getStockReserved(2), is(equalTo(5)));
+		assertEquals(5, inventory.getStockReserved(1));
+		assertEquals(5, inventory.getStockReserved(2));
 	}
 
 	@Test
@@ -69,17 +66,17 @@ class ProductInventoryTest {
 	void checksProductsReservedCantBeLargerThanStock() throws InventoryException {
 		// Verification
 		try {
-			inventory.blockProductFromStock(1, 11);
-			Assert.fail();
+			inventory.removeProductFromStock(1, 11);
+			Assertions.fail();
 		} catch (Exception e) {
-			assertThat(e.getMessage(), is("Quantity to remove larger than stock"));
+			assertEquals("Quantity to remove larger than stock", e.getMessage());
 		}
 
 		try {
-			inventory.blockProductFromStock(2, 11);
-			Assert.fail();
+			inventory.removeProductFromStock(2, 11);
+			Assertions.fail();
 		} catch (Exception e) {
-			assertThat(e.getMessage(), is("Quantity to remove larger than stock"));
+			assertEquals("Quantity to remove larger than stock", e.getMessage());
 		}
   }
 	
@@ -87,7 +84,7 @@ class ProductInventoryTest {
 	@Order(4) 
 	void checkAddingCatalogToInventory() {
 		catalog.getAllProducts();
-		assertThat(inventory.getInventory().size(), is(equalTo(2)));
+		assertEquals(2, inventory.getInventory().size());
 	}
 	
 	@Test
@@ -95,13 +92,11 @@ class ProductInventoryTest {
 	void checkReturningMoreThanStockReserved() throws InventoryException {
 		//Verification
 
-			inventory.returnProductsToStock(1);
-			assertThat(inventory.getProductStock(1),
-					is(equalTo(inventory.getProductStock(1) + inventory.getStockReserved(1))));
+			inventory.returnProductsToStock(1, 5);
+			assertEquals(inventory.getProductStock(1) + inventory.getStockReserved(1) , inventory.getProductStock(1));
 
-			inventory.returnProductsToStock(2);
-			assertThat(inventory.getProductStock(2),
-					is(equalTo(inventory.getProductStock(2) + inventory.getStockReserved(2))));
+			inventory.returnProductsToStock(2, 5);
+			assertEquals(inventory.getProductStock(2) + inventory.getStockReserved(2) , inventory.getProductStock(2));
 	}
 	
 	

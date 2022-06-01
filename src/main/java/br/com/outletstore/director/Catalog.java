@@ -32,8 +32,8 @@ public class Catalog {
 				desktopBuilder.setSku(2);
 				desktopBuilder.setPrice(6800);
 				desktopBuilder.setWeight(5500);
-				desktopBuilder.setBrand("Pc Gamer");
-				desktopBuilder.setType("AORUS");
+				desktopBuilder.setMonitor("Pc Gamer");
+				desktopBuilder.setCpu("AORUS");
 				Desktop desktop = desktopBuilder.build();
 				catalog.add(desktop);
 				break;

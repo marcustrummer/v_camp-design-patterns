@@ -38,12 +38,12 @@ public class DesktopBuilder implements IProductBuilder{
 	}
 
 
-	public DesktopBuilder setType(String cpu) {
+	public DesktopBuilder setCpu(String cpu) {
 		this.cpu = cpu;
 		return this;
 	}
 	
-	public DesktopBuilder setBrand(String monitor) {
+	public DesktopBuilder setMonitor(String monitor) {
 		this.monitor = monitor;
 		return this;
 	}
