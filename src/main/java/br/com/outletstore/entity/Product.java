@@ -8,16 +8,12 @@ public class Product {
 	
 	public double weight;
 
-
-	
-
-	
 	public Product() {}
 	
 	
 	
 	//CONSTRUCTOR	
-	public Product(int sku, double price, double weight, int stockQuantity, int stockReserved) {
+	public Product(int sku, double price, double weight) {
 		super();
 		this.sku = sku;
 		this.price = price;
@@ -40,27 +36,5 @@ public class Product {
 		return weight;
 	}
 
-
-
-
-	
-//	public String toString() {
-//		return 
-//				"Notebook: \n"+ "[Brand: " +   this.notebook.getBrand() + "]\n"
-//		                    "[Type: " + this.notebook + "]\n" 
-//		                   +Double.toString(this.getStockQuantity()) +  "[Price: R$" +     Double.toString(this.getPrice()) + "]\n"
-//		                   + "[Weight: " +    Double.toString(this.getWeight()) + "kg]\n";
-//		                   
-//	}
-
-
-
-
-
-	
-
-
-	
-	
 
 }

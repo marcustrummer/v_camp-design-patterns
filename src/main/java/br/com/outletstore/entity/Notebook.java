@@ -5,12 +5,9 @@ public class Notebook extends Product{
 	public String brand;
 	
 	public String type;
-	
-	
-	
-	
+
 	public String toString() {
-		return "Notebook: \n"+ "[Brand: " +   this.getBrand() + "]\n"
+		return "\nNotebook: \n"+ "[Brand: " +   this.getBrand() + "]\n"
 		                   + "[Type: " + this.getType() + "]\n" 
 		                   + "[Price: R$" +     Double.toString(this.getPrice()) + "]\n"
 		                   + "[Weight: " +    Double.toString(this.getWeight()) + "kg]\n";
@@ -42,12 +39,5 @@ public class Notebook extends Product{
 	public void setType(String type) {
 		this.type = type;
 	}
-
-
-	
-	
-	
-	
-	
 
 }

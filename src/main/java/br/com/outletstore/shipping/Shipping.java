@@ -3,19 +3,9 @@ package br.com.outletstore.shipping;
 import br.com.outletstore.cart.Cart;
 import br.com.outletstore.exceptions.ShippingException;
 
-public class Shipping implements IShipping{
+public abstract class Shipping implements IShipping{
 
-	
-	public Shipping obtainShipping(Cart cart) {
-		if (cart.getCartWeight() > 10) {
-			return new RoadShipping();
-		} else {
-			return new AeroShipping();
-		}
-	}
-	
-	
-	
+	private String type;
 	
 	
 	@Override
@@ -23,12 +13,13 @@ public class Shipping implements IShipping{
 		// TODO Auto-generated method stub
 		return 0d;
 	}
-
 	@Override
-	public String getType(String type) {
+	public String getType() {
 		// TODO Auto-generated method stub
 		return type;
 	}
+
+
 	
 	
 

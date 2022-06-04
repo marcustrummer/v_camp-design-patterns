@@ -5,7 +5,11 @@ import java.util.List;
 
 import br.com.outletstore.entity.Product;
 import br.com.outletstore.exceptions.InventoryException;
+import br.com.outletstore.exceptions.ShippingException;
 import br.com.outletstore.inventory.ProductInventory;
+import br.com.outletstore.shipping.AeroShipping;
+import br.com.outletstore.shipping.RoadShipping;
+import br.com.outletstore.shipping.Shipping;
 
 public class Cart {
 
@@ -68,6 +72,27 @@ public class Cart {
 		return cartWeight;
 
 	}
+	
+	public Double getShipping() throws ShippingException {
+		Shipping shipping;
+		if(getCartWeight() <= 10) {
+			shipping = new AeroShipping();
+		} else {
+			shipping = new RoadShipping();
+		}
+		return shipping.getPrice(this);
+	}
+
+	public String getShippingMethod() {
+		Shipping shipping;
+		if(getCartWeight() <= 10) {
+			shipping = new AeroShipping();
+		} else {
+			shipping = new RoadShipping();
+		}
+		return shipping.getType();
+	}
+	
 
 //	preço total(`getTotal`), peso total(`getWeight`)
 //	e a Classe `Shipping` e que também possui instâncias de `Aero` e `Road`.

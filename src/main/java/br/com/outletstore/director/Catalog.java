@@ -22,7 +22,7 @@ public class Catalog {
 			case 1: 
 				notebookBuilder.setSku(1);
 				notebookBuilder.setPrice(12000);
-				notebookBuilder.setWeight(4500);
+				notebookBuilder.setWeight(4.5);
 				notebookBuilder.setBrand("Dell");
 				notebookBuilder.setType("G1511");
 				Notebook notebook = notebookBuilder.build();
@@ -31,7 +31,7 @@ public class Catalog {
 			case 2:
 				desktopBuilder.setSku(2);
 				desktopBuilder.setPrice(6800);
-				desktopBuilder.setWeight(5500);
+				desktopBuilder.setWeight(5.5);
 				desktopBuilder.setMonitor("Pc Gamer");
 				desktopBuilder.setCpu("AORUS");
 				Desktop desktop = desktopBuilder.build();

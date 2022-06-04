@@ -25,6 +25,7 @@ public class AeroShipping extends Shipping {
 		return deliverPrice;
 	}
 
+	@Override
 	public String getType() {
 		return "Aero";
 	}

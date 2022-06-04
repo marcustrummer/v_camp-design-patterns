@@ -19,6 +19,8 @@ import br.com.outletstore.inventory.ProductInventory;
 public class CartTest {
 	
 	Cart cart1 = new Cart();
+	
+	Cart cart2 = new Cart();
 
 	static ProductInventory inventory = ProductInventory.getInstance();
 	static Catalog catalog = new Catalog();
@@ -54,6 +56,8 @@ public class CartTest {
 	public void removeProductToCartTest() throws InventoryException {
 		//Action
 		cart1.addProductToCart(1, 7);
+		
+		//cart2.addProductToCart(1, 1);
 		
 		cart1.addProductToCart(2, 3);
 		//Verify that you cannot return more products than reserved;
@@ -114,7 +118,7 @@ public class CartTest {
 	@Order(5) 
 	void testCartWeight() throws InventoryException {
 		//Verify
-		assertEquals(10000, cart1.getCartWeight());
+		assertEquals(10, cart1.getCartWeight());
 	}
 	
 	

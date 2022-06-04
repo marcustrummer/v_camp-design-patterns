@@ -4,43 +4,93 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.outletstore.exceptions.ShippingException;
+
 //Crie uma classe chamada `OrderList` que utilize o padrão `Iterator` e `Singleton`
 //para armazenar uma lista de instâncias da classe `Order`,
 //que irá ser consumida pela classe `Backoffice` para varrer a listagem de pedidos
 //e exibir os dados referente aos pedidos.
-public class OrderList implements Iterator<Order> {
+public class OrderList implements Iterable<Order> {
 
-	// The field storing the instance of singleton must be declared as static.
 	private static OrderList orderList;
 
 	private static List<Order> orders = new ArrayList<>();
 
-	// The static method that gives access to the singleton
+	private OrderList(List<Order> orders) {
+		OrderList.orders = orders;
+	}
+
 	public static OrderList getInstance() {
-		// Makes sure the instance of singleton
-		// wasn't initialized by another thread yet
 		if (orderList == null) {
 			orderList = new OrderList(orders);
 		}
 		return orderList;
 	}
-
-	// The constructor of the singleton must always be declared as
-	// private to make sure noone can make new instances of the singleton
-	// by using the operator `new`
-	// i.e, OrderList orderList = new OrderList();
-	private OrderList(List<Order> orders) {
-		OrderList.orders = orders;
+	
+	public List<Order> getOrders() {
+		return OrderList.orders;
 	}
+	
+	
+	public void addOrderToList(Order order) {
+		if(order.getStatus()== OrderStatus.CANCELED) {
+			System.out.println("This order >>[" + order.getId() + "]<< is cancelled and can not be added to the order list.");
+		} else {
+			orders.add(order);
+		}
+	}
+	
+
+	public void getOrderPriceById(int id) throws ShippingException {
+		Iterator<Order> it = OrderList.orders.iterator();
+		while(it.hasNext()) {
+			Order o = it.next();
+			if(o.getId() == id)
+			System.out.println("Order price: " + o.getTotalPrice());
+		}
+	}
+	
+
+
+	public void getOrderShippingById(int id){
+		Iterator<Order> it = OrderList.orders.iterator();
+		while(it.hasNext()) {
+			Order o = it.next();
+			if(o.getId() == id)
+			System.out.println("Order shipping price: " + o.getShipping());
+		}
+	}
+	public void getOrderShippingMethodById(int id){
+		Iterator<Order> it = OrderList.orders.iterator();
+		while(it.hasNext()) {
+			Order o = it.next();
+			if(o.getId() == id)
+			System.out.println("Order shipping price: " + o.getShippingMethod());
+		}
+	}
+	
 
 	@Override
-	public boolean hasNext() {
-		return OrderList.getInstance().hasNext();
-	}
+	public Iterator<Order> iterator() {
+		Iterator<Order> it = new Iterator<Order>() {
 
-	@Override
-	public Order next() {
-		return orderList.next();
-	}
+			private int currentIndex = 0;
 
+			@Override
+			public boolean hasNext() {
+				return currentIndex < orders.size() && orders.get(currentIndex) != null;
+			}
+
+			@Override
+			public Order next() {
+				return orders.get(currentIndex++);
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+		};
+		return it;
+	}
 }

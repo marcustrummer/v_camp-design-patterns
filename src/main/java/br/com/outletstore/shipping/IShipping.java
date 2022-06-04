@@ -8,5 +8,5 @@ public interface IShipping {
 	
 	Double getPrice(Cart cart) throws ShippingException;
 	
-	String getType(String type);
+	String getType();
 }
