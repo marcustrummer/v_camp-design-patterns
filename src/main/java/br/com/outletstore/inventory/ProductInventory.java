@@ -58,38 +58,35 @@ public class ProductInventory {
 		return ProductInventory.inventory;
 	}
 	
-	public int getProductStock(int sku) {
+	public int getProductStock(int sku) throws InventoryException {
 		int stock = 0;
 		switch (sku) {
 		case 1:
 			stock = ProductInventory.notebookStock;
-			//System.out.println("There are currently " + stock + " notebooks available in stock.");
 			break;
 		case 2:
 			stock = ProductInventory.desktopStock;
-			//System.out.println("There are currently " + stock + " desktops available in stock.");
 			break;
 		default:
-			System.out.println("404 - Product Not Found");
+			throw new InventoryException("Product not found!");
 		}
 		return stock;
 	}
 
 
 	
-	public int getStockReserved(int sku) {
+	public int getStockReserved(int sku) throws InventoryException {
 		int stock = 0;
 		switch (sku) {
 		case 1:
 			stock = ProductInventory.notebooksReserved;
-			//System.out.println("There are currently " + stock + " notebooks reserved");
+
 			break;
 		case 2:
 			stock = ProductInventory.desktopsReserved;
-			//System.out.println("There are currently " + stock + " desktops reserved");
 			break;
 		default:
-			System.out.println("404 - Product Not Found");
+			throw new InventoryException("Product not found!");
 		}
 		return stock;
 	}
@@ -102,18 +99,14 @@ public class ProductInventory {
 		case 1:
 			ProductInventory.notebookStock += quantity;
 			ProductInventory.notebooksReserved -= quantity;
-//			System.out.println(
-//					"Notebook returned." + ProductInventory.notebookStock + " notebooks available in stock.");
 			break;
 		case 2:
 			// Must check if the quantity being returned is equal to the quantity reserved
 			ProductInventory.desktopStock += quantity;
 			ProductInventory.desktopsReserved -= quantity;
-//			System.out.println(
-//					"Desktop returned.\n" + ProductInventory.notebookStock + " desktops available in stock.");
 			break;
 		default:
-			System.out.println("404 - Product Not Found");
+			throw new InventoryException("Product not found!");
 		}
 	}
 
@@ -121,28 +114,21 @@ public class ProductInventory {
 		switch (sku) {
 		case 1:
 			if (quantity > ProductInventory.notebookStock) {
-				System.out.println("The amount of notebooks you are trying to remove is larger than stock.\n"
-						+ ProductInventory.notebookStock + " products available in stock.");
 				throw new InventoryException("Quantity to remove larger than stock");
 			}
-			
-			
+
 			ProductInventory.notebookStock -= quantity;
 			blockProductFromStock(sku, quantity);
 			break;
 		case 2:
 			if (quantity > ProductInventory.desktopStock) {
-				System.out.println("The amount of notebooks you are trying to remove is larger than stock.\n"
-						+ ProductInventory.notebookStock + " products available in stock.");
 				throw new InventoryException("Quantity to remove larger than stock");
 			}
-			
-			
 			ProductInventory.desktopStock -= quantity;
 			blockProductFromStock(sku, quantity);
 			break;
 		default:
-			System.out.println("404 - Product not found");
+			throw new InventoryException("Product not found!");
 		}
 
 	}
@@ -151,15 +137,12 @@ public class ProductInventory {
 		switch (sku) {
 		case 1:
 			ProductInventory.notebooksReserved += quantity;
-			//System.out.println(ProductInventory.notebooksReserved + " notebooks reserved");
 			break;
 		case 2:
-
 			ProductInventory.desktopsReserved += quantity;
-			//System.out.println(ProductInventory.notebooksReserved + " desktops reserved");
 			break;
 		default:
-			System.out.println("404 - Product not found");
+			throw new InventoryException("Product not found!");
 		}
 	}
 	
@@ -169,11 +152,10 @@ public class ProductInventory {
 			ProductInventory.notebooksReserved -= quantity;
 			break;
 		case 2:
-
 			ProductInventory.desktopsReserved -= quantity;
 			break;
 		default:
-			System.out.println("404 - Product not found");
+			throw new InventoryException("Product not found!");
 		}
 	}
 

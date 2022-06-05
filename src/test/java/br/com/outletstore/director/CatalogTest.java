@@ -9,14 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import br.com.outletstore.builder.DesktopBuilder;
 import br.com.outletstore.builder.NotebookBuilder;
+import br.com.outletstore.exceptions.InventoryException;
 import br.com.outletstore.inventory.ProductInventory;
 
 class CatalogTest {
-
-//	@Test
-//	void test() {
-//		fail("Not yet implemented");
-//	}
 
 	static ProductInventory inventory = ProductInventory.getInstance();
 	static Catalog catalog = new Catalog();
@@ -24,8 +20,9 @@ class CatalogTest {
 	static DesktopBuilder builderB = new DesktopBuilder();
 
 	@BeforeAll
-	static void setup() {
+	static void setup() throws InventoryException {
 		// Action
+
 		catalog.addProductToCatalog(1);
 		builder.setBrand("Dell");
 		builder.setType("G1511");
@@ -45,11 +42,15 @@ class CatalogTest {
 
 		
 		// Verification
+
+		
+		
 		Assertions.assertEquals(1, catalog.getAllProducts().get(0).getSku());
 		assertEquals(12000, catalog.getAllProducts().get(0).getPrice());
-		assertEquals(4500, catalog.getAllProducts().get(0).getWeight());
+		assertEquals(4.5, catalog.getAllProducts().get(0).getWeight());
 		assertEquals("Dell", builder.getProduct().getBrand());
 		assertEquals("G1511", builder.getProduct().getType());
+		
 	}
 	
 	@Test
@@ -59,7 +60,7 @@ class CatalogTest {
 		// Verification
 		assertEquals(2, catalog.getAllProducts().get(1).getSku());
 		assertEquals(6800, catalog.getAllProducts().get(1).getPrice());
-		assertEquals(5500, catalog.getAllProducts().get(1).getWeight());
+		assertEquals(5.5, catalog.getAllProducts().get(1).getWeight());
 		assertEquals("Pc Gamer", builderB.getProduct().getCpu());
 		assertEquals("AORUS", builderB.getProduct().getMonitor());
 		
@@ -72,6 +73,15 @@ class CatalogTest {
 		// Verification
 		assertEquals(2, catalog.getAllProducts().size());
 	}
+	
+	@Test
+	public void checkAddingProductToCatalog() {
+		//verify
+		InventoryException exception = Assertions.assertThrows(InventoryException.class,
+				() -> catalog.addProductToCatalog(0));
+		Assertions.assertEquals("Product not found!", exception.getMessage());
+	}
+	
 	
 	
 }

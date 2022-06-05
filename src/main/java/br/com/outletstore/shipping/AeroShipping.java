@@ -17,7 +17,7 @@ public class AeroShipping extends Shipping {
 		
 		
 		if(cart.getCartPrice() < 7.99)
-			throw new ShippingException("Valor minimo nao atingido");
+			throw new ShippingException("Minimum value not reached");
 		
 		countProducts = (int) cart.getCart().stream().count();
 		deliverPrice += costPerItem * countProducts;

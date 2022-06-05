@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.outletstore.exceptions.OrderException;
 import br.com.outletstore.exceptions.ShippingException;
 
 //Crie uma classe chamada `OrderList` que utilize o padrão `Iterator` e `Singleton`
@@ -13,6 +14,8 @@ import br.com.outletstore.exceptions.ShippingException;
 public class OrderList implements Iterable<Order> {
 
 	private static OrderList orderList;
+
+	private List<IOrderListOserver> observers = new ArrayList<>();
 
 	private static List<Order> orders = new ArrayList<>();
 
@@ -26,49 +29,108 @@ public class OrderList implements Iterable<Order> {
 		}
 		return orderList;
 	}
-	
+
 	public List<Order> getOrders() {
 		return OrderList.orders;
 	}
-	
-	
-	public void addOrderToList(Order order) {
-		if(order.getStatus()== OrderStatus.CANCELED) {
-			System.out.println("This order >>[" + order.getId() + "]<< is cancelled and can not be added to the order list.");
-		} else {
-			orders.add(order);
-		}
-	}
-	
 
-	public void getOrderPriceById(int id) throws ShippingException {
-		Iterator<Order> it = OrderList.orders.iterator();
-		while(it.hasNext()) {
-			Order o = it.next();
-			if(o.getId() == id)
-			System.out.println("Order price: " + o.getTotalPrice());
+	public void addOrderToList(Order order) throws OrderException {
+		if (order == null) {
+			throw new OrderException("Order is null!");
 		}
-	}
-	
 
+		if (order.getStatus() == OrderStatus.CANCELED) {
+			throw new OrderException("Order canceled and cannot be added to list");
+		}
+		orders.add(order);
+		observers.forEach(o -> {
+			try {
+				o.renderOrderList(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 
-	public void getOrderShippingById(int id){
-		Iterator<Order> it = OrderList.orders.iterator();
-		while(it.hasNext()) {
-			Order o = it.next();
-			if(o.getId() == id)
-			System.out.println("Order shipping price: " + o.getShipping());
-		}
 	}
-	public void getOrderShippingMethodById(int id){
-		Iterator<Order> it = OrderList.orders.iterator();
-		while(it.hasNext()) {
-			Order o = it.next();
-			if(o.getId() == id)
-			System.out.println("Order shipping price: " + o.getShippingMethod());
+
+	public void RemoveOrderFromList(Order order) throws OrderException {
+		if (orders.isEmpty()) {
+			throw new OrderException("Order cannot be remoed. Order list is empty!");
 		}
+		if (order == null) {
+			throw new OrderException("Order is null!");
+		}
+
+		orders.remove(order);
+		observers.forEach(o -> {
+			try {
+				o.renderOrderList(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 	}
-	
+
+	public String getOrderPriceById(int id) throws ShippingException, OrderException {
+		Iterator<Order> it = OrderList.orders.iterator();
+		String result = null;
+		while (it.hasNext()) {
+			Order o = it.next();
+			if (o.getId() == id)
+				result = "Order price: " + o.getTotalPrice();
+		}
+
+		if (result == null) {
+			throw new OrderException("Order not found");
+		}
+		return result;
+	}
+
+	public String getOrderShippingById(int id) throws OrderException {
+		Iterator<Order> it = OrderList.orders.iterator();
+		String result = null;
+		while (it.hasNext()) {
+			Order o = it.next();
+			if (o.getId() == id)
+				result = "Order shipping price: " + o.getShipping();
+		}
+		if (result == null) {
+			throw new OrderException("Order not found");
+		}
+
+		return result;
+	}
+
+	public String getOrderShippingMethodById(int id) throws OrderException {
+		Iterator<Order> it = OrderList.orders.iterator();
+		String result = null;
+		while (it.hasNext()) {
+			Order o = it.next();
+			if (o.getId() == id)
+				result = "Order shipping price: " + o.getShippingMethod();
+		}
+		if (result == null) {
+			throw new OrderException("Order not found");
+		}
+		return result;
+	}
+
+	public void addObserver(IOrderListOserver observer) throws OrderException {
+		
+		if(observer == null) {
+			throw new OrderException("Observer cannot be null!");
+		}
+		observers.add(observer);
+	}
+
+	public void removeObserver(IOrderListOserver observer) throws OrderException {
+		if(observer == null) {
+			throw new OrderException("Observer cannot be null!");
+		}
+		observers.remove(observer);
+	}
 
 	@Override
 	public Iterator<Order> iterator() {

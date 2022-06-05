@@ -8,13 +8,14 @@ import br.com.outletstore.builder.NotebookBuilder;
 import br.com.outletstore.entity.Desktop;
 import br.com.outletstore.entity.Notebook;
 import br.com.outletstore.entity.Product;
+import br.com.outletstore.exceptions.InventoryException;
 
 public class Catalog {
 		
 	public List<Product> catalog = new ArrayList<>();
 	
 	
-	public void addProductToCatalog(int typeOfProduct) {
+	public void addProductToCatalog(int typeOfProduct) throws InventoryException {
 
 		NotebookBuilder notebookBuilder = new NotebookBuilder();
 		DesktopBuilder desktopBuilder = new DesktopBuilder();
@@ -39,7 +40,7 @@ public class Catalog {
 				break;
 			    
 			default: 
-				System.out.println("404 - Product not found");
+				throw new InventoryException("Product not found!");
 				
 		}
 	}
