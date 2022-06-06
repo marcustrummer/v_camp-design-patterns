@@ -1,5 +1,5 @@
 # v_camp-design-patterns
-This project has the goal to exercise and apply all the concepts of Design Patterns, SOLID as well as unitary tests in a real world example. This may be an example of *_overengineering_* using the patterns, but keep in mind the main goal of this exercise is to learn and pratice the patterns in order to consolide all the knowledge learned during the first phase of V_ camp.
+This project has the goal to exercise and apply all the concepts of Design Patterns, SOLID as well as unitary tests in a real world example. This may be an example of *_overengineering_* using the patterns, but keep in mind the main goal of this exercise is to learn and pratice the patterns in order to consolidate all the knowledge learned during the first phase of V_ camp.
 
 
 ## Requisitos
