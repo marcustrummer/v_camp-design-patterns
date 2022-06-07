@@ -1,5 +1,6 @@
 package br.com.outletstore.order;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -140,15 +141,19 @@ class OrderListTest {
 	
 	
 	@Test
-	void testRemovingOrderNullToList() throws ShippingException, OrderException {
+	void testRemovingOrderFromList() throws ShippingException, OrderException {
 		//Action
-		Order order1 = null;
 		Order order2 = new Order(2, cart2, cart2.getShipping(), OrderStatus.PENDING, cart2.getShippingMethod());
 		list.addOrderToList(order2);
 		
-		//Verify	
-		OrderException exception = Assertions.assertThrows(OrderException.class, ()-> list.RemoveOrderFromList(order1));
-		Assertions.assertEquals("Order is null!", exception.getMessage());
+		
+//		Verify	
+		
+		list.updateOrderStatus(order2, 1);  //REMOVING ORDER FROM LIST
+		
+		assertThat(!list.getOrders().contains(order2));
+		
+		
 	}
 	
 	@Test

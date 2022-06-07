@@ -1,7 +1,5 @@
 package br.com.outletstore.client;
 
-import java.util.Scanner;
-
 import br.com.outletstore.backoffice.BackOffice;
 import br.com.outletstore.cart.Cart;
 import br.com.outletstore.cart.CartList;
@@ -48,17 +46,17 @@ public class Client {
 		cart3.addProductToCartById(2, 3, 1);  //ADD 01 iPad(SKU=3) TO CART3
 		
 		
-		Order order1 = new Order(1, cart1, cart1.getShipping(), OrderStatus.PAID, cart1.getShippingMethod());
+		Order order1 = new Order(1, cart1, cart1.getShipping(), OrderStatus.PENDING, cart1.getShippingMethod());
 		
 		Order order2 = new Order(2, cart2, cart2.getShipping(), OrderStatus.PENDING, cart2.getShippingMethod());
 
-		Order order3 = new Order(3, cart3, cart3.getShipping(), OrderStatus.COMPLETED, cart3.getShippingMethod());
+		Order order3 = new Order(3, cart3, cart3.getShipping(), OrderStatus.PENDING, cart3.getShippingMethod());
 		
-		list.addObserver(backOffice);
 		
 		
 		list.addOrderToList(order1);
 		list.addOrderToList(order2);
+		list.addObserver(backOffice);
 		list.addOrderToList(order3);
 		
 		//UPDATIN ORDERS
@@ -89,6 +87,11 @@ public class Client {
 			e.printStackTrace();
 		}
 		
+		
+		
+		System.out.println(list.getOrderPriceById(3));
+		System.out.println(list.getOrderShippingById(3));
+		System.out.println(list.getOrderShippingMethodById(3));
 		
 
 	}
