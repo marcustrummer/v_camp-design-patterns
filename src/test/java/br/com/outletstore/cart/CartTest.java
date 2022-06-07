@@ -9,8 +9,10 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import br.com.outletstore.builder.AlexaBuilder;
 import br.com.outletstore.builder.DesktopBuilder;
 import br.com.outletstore.builder.NotebookBuilder;
+import br.com.outletstore.builder.iPadBuilder;
 import br.com.outletstore.director.Catalog;
 import br.com.outletstore.exceptions.InventoryException;
 import br.com.outletstore.inventory.ProductInventory;
@@ -19,15 +21,23 @@ import br.com.outletstore.inventory.ProductInventory;
 public class CartTest {
 	
 	static Cart cart1 = new Cart();
-	
 	static Cart cart2 = new Cart();
+	static Cart cart3 = new Cart();
+	static Cart cart4 = new Cart();
 	
 	static CartList listOfCarts = CartList.getInstance();
 
+	//Inventory
 	static ProductInventory inventory = ProductInventory.getInstance();
+	
+	//Catalog
 	static Catalog catalog = new Catalog();
+	
+	//Builders
 	static NotebookBuilder builder = new NotebookBuilder();
 	static DesktopBuilder builderB = new DesktopBuilder();
+	static iPadBuilder builderC = new iPadBuilder();
+	static AlexaBuilder builderD = new AlexaBuilder();
 
 	@BeforeAll
 	static void setup() throws InventoryException {
@@ -41,21 +51,35 @@ public class CartTest {
 		builderB.setCpu("Pc Gamer");
 		builderB.setMonitor("AORUS");
 		builderB.build();
+		
+		catalog.addProductToCatalog(3);
+		builderC.setMemory("8gb");
+		builderC.setVersion("iPadMini");
+		builderC.build();
+		
+		catalog.addProductToCatalog(4);
+		builderD.setColor("Black");
+		builderD.setVoice("Male");
+		builderD.build();
 		ProductInventory.addCatalogToInventory(catalog);
 		cart1.setIdCart(0);
+		cart2.setIdCart(1);
+		cart3.setIdCart(2);
+		cart4.setIdCart(3);
 		
 		listOfCarts.addCartToList(cart1);
 		listOfCarts.addCartToList(cart2);
+		listOfCarts.addCartToList(cart3);
+		listOfCarts.addCartToList(cart4);
 
 		
-		cart2.setIdCart(1);
 		
 	}
 	
 	@Test
 	@Order(1) 
 	public void addProductToCartTest2() {
-		//Verification
+		//Verify
 		InventoryException exception = Assertions.assertThrows(InventoryException.class, ()-> cart1.addProductToCartById(1, 1, 11));
 		Assertions.assertEquals("Quantity to remove larger than stock", exception.getMessage());
 	}

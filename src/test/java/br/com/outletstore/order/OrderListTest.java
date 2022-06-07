@@ -103,6 +103,18 @@ class OrderListTest {
 	}
 	
 	@Test
+	void testUpdatingOrder() throws ShippingException, OrderException {
+		//Action	
+		Order order1 = new Order(1, cart1, cart1.getShipping(), OrderStatus.PENDING, cart1.getShippingMethod());
+		
+		list.addOrderToList(order1);
+		
+		list.updateOrderStatus(order1, 2);
+		
+		assertEquals(OrderStatus.PAID, order1.getStatus());
+	}
+	
+	@Test
 	void testAddingOrderCanceledToList() throws ShippingException {
 		//Action	
 		Order order1 = new Order(1, cart1, cart1.getShipping(), OrderStatus.CANCELED, cart1.getShippingMethod());

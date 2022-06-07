@@ -1,8 +1,8 @@
 package br.com.outletstore.cart;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import br.com.outletstore.entity.Product;
 import br.com.outletstore.exceptions.InventoryException;
@@ -27,61 +27,38 @@ public class Cart {
 	}
 
 	public void addProductToCartById(int idCart, int sku, int quantity) throws InventoryException {
+//		Optional<Product> prod = ce.get().cart.stream().filter(p->p.getSku()== sku).findAny();
+//		ce.get().cart.add(prod);
+		// List<Product> aux = ce.get().getCart().stream().filter(prod ->
+		// prod.getSku()==sku).toList();
+		Optional<Cart> ce = listOfCart.getCarts().stream().filter(cart -> cart.getIdCart() == idCart).findAny();
 		inventory.removeProductFromStock(sku, quantity);
-		Iterator<Cart> it = listOfCart.getCarts().iterator();
-		while (it.hasNext()) {
-			Cart c = it.next();
-			if (c.getIdCart() == idCart) {
-				for (Product product : inventory.getInventory()) {
-					// finding the product by sku
-					if (product.getSku() == sku) {
-						while (quantity != 0) {
-							c.cart.add(product);
-							quantity--;
-						}
-					}
+		for (Product product : inventory.getInventory()) {
+			if (product.getSku() == sku) {
+				for(int i=0; i<quantity;i++) {
+					ce.get().cart.add(product);
 				}
 			}
 		}
 	}
 
 	public void removeProductFromCartById(int idCart, int sku, int quantity) throws InventoryException {
-
-		Iterator<Cart> ite = listOfCart.getCarts().iterator();
-		Iterator<Cart> it = listOfCart.getCarts().iterator();
-		int productCount=0;
-		while (ite.hasNext()) {
-
-			Cart c = ite.next();
-			if (c.getIdCart() == idCart) {
-				for (int i = 0; i < cart.size(); i++) {
-					if (cart.get(i).getSku() == sku) {
-							productCount++;
-					}
-				}
-			}
-		}
-		if (quantity > productCount) {
+		Optional<Cart> ce = listOfCart.getCarts().stream().filter(cart -> cart.getIdCart() == idCart).findAny();
+		int prodCount = (int) ce.get().cart.stream().filter(p -> p.getSku() == sku).count();
+		if (quantity > prodCount) {
 			throw new InventoryException("Quantity to remove larger than stock");
 		}
 		inventory.returnProductsToStock(sku, quantity);
-		while (it.hasNext()) {
-
-			Cart c = it.next();
-			if (c.getIdCart() == idCart) {
-				for (int i = 0; i < cart.size(); i++) {
-					if (cart.get(i).getSku() == sku) {
-						for (int j = 0; j < quantity; j++) {
-							cart.remove(i);
-						}
-						break;
-					}
+		// List<Product> aux = ce.get().getCart().stream().filter(prod ->
+		// prod.getSku()==sku).toList();
+		for (int i = 0; i < quantity; i++) {
+			if (cart.get(i).getSku() == sku) {
+				for (int j = 0; j < quantity; j++) {
+					ce.get().cart.remove(i);
 				}
+				break;
 			}
 		}
-		// Checks if the amount of products being returned to stock is not larger than
-		// quantity in cart
-
 	}
 
 	public Double getCartPrice() {
@@ -123,24 +100,15 @@ public class Cart {
 
 	@Override
 	public String toString() {
-		return  cart + "\n";
+		return cart + "\n";
 	}
 
-	/**
-	 * @return the idCart
-	 */
 	public int getIdCart() {
 		return idCart;
 	}
 
-	/**
-	 * @param idCart the idCart to set
-	 */
 	public void setIdCart(int idCart) {
 		this.idCart = idCart;
 	}
-
-//	preço total(`getTotal`), peso total(`getWeight`)
-//	e a Classe `Shipping` e que também possui instâncias de `Aero` e `Road`.
 
 }

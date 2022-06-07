@@ -73,9 +73,12 @@ class ShippingTest {
 		//Verify
 		Cart cart = new Cart();
 		
+		
 		ShippingException exception = Assertions.assertThrows(ShippingException.class, ()-> cart.getShipping());
 		Assertions.assertEquals("Minimum value not reached", exception.getMessage());
 	}
+	
+	
 	
 
 

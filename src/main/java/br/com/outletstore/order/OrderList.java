@@ -3,6 +3,7 @@ package br.com.outletstore.order;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import br.com.outletstore.exceptions.OrderException;
 import br.com.outletstore.exceptions.ShippingException;
@@ -54,9 +55,43 @@ public class OrderList implements Iterable<Order> {
 
 	}
 
+	public void updateOrderStatus(Order order, int choice) throws OrderException {
+		switch (choice) {
+		case 1:
+			order.setStatus(OrderStatus.CANCELED);
+			System.out.println("Order canceled successfully!");
+			orders.remove(order);
+			break;
+		case 2:
+			order.setStatus(OrderStatus.PAID);
+			System.out.println("Order updated to paid!");
+			break;
+		case 3: 
+			order.setStatus(OrderStatus.COMPLETED);
+			orders.remove(order);
+			break;
+		case 4:
+			order.setStatus(OrderStatus.SHIPPED);
+			System.out.println("Order set to shipping");
+			break;
+		default:
+			throw new OrderException("Order not found");
+		}
+		observers.forEach(o -> {
+			try {
+				o.renderOrderList(this);
+			} catch (ShippingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+	}
+	
+
+
 	public void RemoveOrderFromList(Order order) throws OrderException {
 		if (orders.isEmpty()) {
-			throw new OrderException("Order cannot be remoed. Order list is empty!");
+			throw new OrderException("Order cannot be removed. Order list is empty!");
 		}
 		if (order == null) {
 			throw new OrderException("Order is null!");
@@ -66,7 +101,7 @@ public class OrderList implements Iterable<Order> {
 		observers.forEach(o -> {
 			try {
 				o.renderOrderList(this);
-			} catch (Exception e) {
+			} catch (ShippingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -74,59 +109,43 @@ public class OrderList implements Iterable<Order> {
 	}
 
 	public String getOrderPriceById(int id) throws ShippingException, OrderException {
-		Iterator<Order> it = OrderList.orders.iterator();
-		String result = null;
-		while (it.hasNext()) {
-			Order o = it.next();
-			if (o.getId() == id)
-				result = "Order price: " + o.getTotalPrice();
-		}
-
-		if (result == null) {
+		Optional<Order> o = OrderList.orders.stream().filter(order -> order.getId() == id).findAny();
+		if (o.isEmpty()) {
 			throw new OrderException("Order not found");
 		}
+		String result = "Order price: " + o.get().getTotalPrice();
 		return result;
 	}
 
 	public String getOrderShippingById(int id) throws OrderException {
-		Iterator<Order> it = OrderList.orders.iterator();
-		String result = null;
-		while (it.hasNext()) {
-			Order o = it.next();
-			if (o.getId() == id)
-				result = "Order shipping price: " + o.getShipping();
-		}
-		if (result == null) {
+		Optional<Order> o = OrderList.orders.stream().filter(order -> order.getId() == id).findAny();
+		if (o.isEmpty()) {
 			throw new OrderException("Order not found");
 		}
-
+		String result = "Order shipping price: " + o.get().getShipping();
 		return result;
 	}
 
 	public String getOrderShippingMethodById(int id) throws OrderException {
-		Iterator<Order> it = OrderList.orders.iterator();
-		String result = null;
-		while (it.hasNext()) {
-			Order o = it.next();
-			if (o.getId() == id)
-				result = "Order shipping price: " + o.getShippingMethod();
-		}
-		if (result == null) {
+
+		Optional<Order> o = OrderList.orders.stream().filter(order -> order.getId() == id).findAny();
+		if (o.isEmpty()) {
 			throw new OrderException("Order not found");
 		}
+		String result = "Order shipping price: " + o.get().getShippingMethod();
 		return result;
 	}
 
 	public void addObserver(IOrderListOserver observer) throws OrderException {
-		
-		if(observer == null) {
+
+		if (observer == null) {
 			throw new OrderException("Observer cannot be null!");
 		}
 		observers.add(observer);
 	}
 
 	public void removeObserver(IOrderListOserver observer) throws OrderException {
-		if(observer == null) {
+		if (observer == null) {
 			throw new OrderException("Observer cannot be null!");
 		}
 		observers.remove(observer);

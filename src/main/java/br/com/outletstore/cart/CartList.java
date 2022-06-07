@@ -3,6 +3,7 @@ package br.com.outletstore.cart;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class CartList implements Iterable<Cart>{
 	
@@ -31,15 +32,22 @@ public class CartList implements Iterable<Cart>{
 	}
 	
 	
-	public Cart getCartById(int id){
-		Iterator<Cart> it = CartList.carts.iterator();
-		while(it.hasNext()) {
-			Cart o = it.next();
-			if(o.getIdCart() == id) {
-				return o;
-			}
+	public Optional<Cart> getCartById(int id){
+		
+		Optional<Cart> c = CartList.carts.stream().filter(cart -> cart.getIdCart() == id).findAny();
+		if (c.isEmpty()) {
+			return null;
 		}
-		return null;
+		return c;
+		
+//		Iterator<Cart> it = CartList.carts.iterator();
+//		while(it.hasNext()) {
+//			Cart o = it.next();
+//			if(o.getIdCart() == id) {
+//				return o;
+//			}
+//		}
+//		return null;
 	}
 
 	@Override

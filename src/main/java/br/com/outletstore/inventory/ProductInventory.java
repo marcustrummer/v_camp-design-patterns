@@ -15,10 +15,18 @@ public class ProductInventory {
 	private static int notebookStock =10;
 
 	private static int desktopStock = 10;
+	
+	private static int iPadStock =10;
+
+	private static int alexaStock = 10;
 
 	private static int notebooksReserved = 0;
 
 	private static int desktopsReserved = 0;
+	
+	private static int iPadsReserved = 0;
+
+	private static int alexaReserved = 0;
 
 	private static List<Product> inventory = new ArrayList<>();
 
@@ -27,7 +35,7 @@ public class ProductInventory {
 		// Makes sure the instance of singleton
 		// wasn't initialized by another thread yet
 		if (productInventory == null) {
-			productInventory = new ProductInventory(notebookStock, desktopStock, inventory, notebooksReserved, desktopsReserved);
+			productInventory = new ProductInventory(notebookStock, desktopStock, alexaStock, iPadStock, inventory, notebooksReserved, desktopsReserved, alexaReserved, iPadsReserved);
 		}
 		return productInventory;
 	}
@@ -36,12 +44,16 @@ public class ProductInventory {
 	// private to make sure noone can make new instances of the singleton
 	// by using the operator `new`
 	// i.e, ProductIventory productInventory = new ProductInventory();
-	private ProductInventory(int notebookStock, int desktopStock, List<Product> inventory, int notebooksReserved, int desktopsReserved) {
+	private ProductInventory(int notebookStock, int desktopStock,int alexaStock, int iPadStock, List<Product> inventory, int notebooksReserved, int desktopsReserved, int alexasReserved, int iPadsReserved) {
 		ProductInventory.notebookStock = notebookStock;
 		ProductInventory.desktopStock = desktopStock;
+		ProductInventory.alexaStock = alexaStock;
+		ProductInventory.iPadStock = iPadStock;
 		ProductInventory.inventory = inventory;
 		ProductInventory.notebooksReserved = notebooksReserved;
 		ProductInventory.desktopsReserved = desktopsReserved;
+		ProductInventory.alexaReserved = alexasReserved;
+		ProductInventory.iPadsReserved = iPadsReserved;
 	}
 	
 	public static void addCatalogToInventory(Catalog catalog) {
@@ -67,6 +79,12 @@ public class ProductInventory {
 		case 2:
 			stock = ProductInventory.desktopStock;
 			break;
+		case 3: 
+			stock = ProductInventory.iPadStock;
+			break;
+		case 4:
+			stock = ProductInventory.alexaStock;
+			break;
 		default:
 			throw new InventoryException("Product not found!");
 		}
@@ -84,6 +102,12 @@ public class ProductInventory {
 			break;
 		case 2:
 			stock = ProductInventory.desktopsReserved;
+			break;
+		case 3: 
+			stock = ProductInventory.iPadsReserved;
+			break;
+		case 4:
+			stock = ProductInventory.alexaReserved;
 			break;
 		default:
 			throw new InventoryException("Product not found!");
@@ -104,6 +128,16 @@ public class ProductInventory {
 			// Must check if the quantity being returned is equal to the quantity reserved
 			ProductInventory.desktopStock += quantity;
 			ProductInventory.desktopsReserved -= quantity;
+			break;
+		case 3:
+			// Must check if the quantity being returned is equal to the quantity reserved
+			ProductInventory.iPadStock += quantity;
+			ProductInventory.iPadsReserved -= quantity;
+			break;
+		case 4:
+			// Must check if the quantity being returned is equal to the quantity reserved
+			ProductInventory.alexaStock += quantity;
+			ProductInventory.alexaReserved -= quantity;
 			break;
 		default:
 			throw new InventoryException("Product not found!");
@@ -127,6 +161,20 @@ public class ProductInventory {
 			ProductInventory.desktopStock -= quantity;
 			blockProductFromStock(sku, quantity);
 			break;
+		case 3:
+			if (quantity > ProductInventory.iPadStock) {
+				throw new InventoryException("Quantity to remove larger than stock");
+			}
+			ProductInventory.iPadStock -= quantity;
+			blockProductFromStock(sku, quantity);
+			break;
+		case 4:
+			if (quantity > ProductInventory.alexaStock) {
+				throw new InventoryException("Quantity to remove larger than stock");
+			}
+			ProductInventory.alexaStock -= quantity;
+			blockProductFromStock(sku, quantity);
+			break;
 		default:
 			throw new InventoryException("Product not found!");
 		}
@@ -141,6 +189,12 @@ public class ProductInventory {
 		case 2:
 			ProductInventory.desktopsReserved += quantity;
 			break;
+		case 3:
+			ProductInventory.iPadsReserved += quantity;
+			break;
+		case 4:
+			ProductInventory.alexaReserved += quantity;
+			break;
 		default:
 			throw new InventoryException("Product not found!");
 		}
@@ -153,6 +207,12 @@ public class ProductInventory {
 			break;
 		case 2:
 			ProductInventory.desktopsReserved -= quantity;
+			break;
+		case 3:
+			ProductInventory.iPadsReserved -= quantity;
+			break;
+		case 4:
+			ProductInventory.alexaReserved -= quantity;
 			break;
 		default:
 			throw new InventoryException("Product not found!");
